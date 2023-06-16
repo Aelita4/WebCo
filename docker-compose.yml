@@ -1,0 +1,27 @@
+version: "3.5"
+
+networks:
+  proxy:
+    external:
+      name: proxy-network    
+
+services:
+  app:
+    container_name: webco
+    restart: always
+    image: aelita4/webco
+    ports:
+      - "3000:3000"
+    depends_on:
+      - surrealdb
+    networks:
+      - proxy
+  surrealdb:
+    container_name: webco_db
+    image: surrealdb/surrealdb:latest
+    restart: always
+    command: start --user aelita --pass root memory
+    networks:
+      - proxy
+    ports:
+      - "8000:8000"
