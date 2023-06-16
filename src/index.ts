@@ -4,6 +4,7 @@ import path from 'path';
 import url from 'url';
 import logger from './logger.js';
 import Database from './database.js';
+import session from 'express-session';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -13,6 +14,16 @@ const db = new Database();
 app.set('views', __dirname + "../views");
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "../views/public"));
+app.use(session({
+  name: 'webcolony',
+  secret: 'KapitanBomba',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+      secure: false,
+      maxAge: 1_440_000
+  }
+}));
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
     logger("WEB", "Request", `${req.method} ${req.path} ${req.ip}`);
@@ -37,7 +48,15 @@ function readRoutesDir(dir: string) {
 readRoutesDir(routesDir);
 
 app.listen(3000, () => {
-    console.log('App listening on port 3000!');
+  	console.log('App listening on port 3000!');
 });
+
+declare module "express-session" {
+	interface SessionData {
+		user: string;
+		isMetamask: boolean;
+		token: string;
+	}
+}
 
 export default db;

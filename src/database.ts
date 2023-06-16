@@ -30,13 +30,13 @@ export default class Database {
     public async select(sql: string) {
         logger("DB", "Get", sql);
         const returnArray = await this.db.query(`SELECT * FROM ${sql}`);
-        const result = returnArray[0].result as Array<any>;
+        const result = (returnArray[0].result as Array<any>)[0];
         return result;
     }
 
     public async create(thing: string, data: any) {
         logger("DB", "Create", thing);
-        return this.db.create(thing, data);
+        return this.db.create(thing, { createdAt: new Date(), updatedAt: new Date(), ...data });
     }
 
     public async get(table: string, id?: string) {
@@ -46,6 +46,11 @@ export default class Database {
 
     public async merge(table: string, data: any) {
         logger("DB", "Merge", table);
-        return this.db.merge(table, data);
+        return this.db.merge(table, { updatedAt: new Date(), ...data });
+    }
+
+    public async selectWhere(table: string, where: string) {
+        logger("DB", "Get", `${table} WHERE ${where}`);
+        return ((await this.db.query(`SELECT * FROM ${table} WHERE ${where}`))[0].result as Array<any>)[0];
     }
 }
