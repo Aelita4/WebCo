@@ -22,7 +22,7 @@ function getExtraColor(extra: string | null) {
     if(extra === "Create") extraColor = chalk.green;
     if(extra === "Get") extraColor = chalk.blue;
     if(extra === "Delete") extraColor = chalk.red;
-    if(extra === "Change") extraColor = chalk.yellow;
+    if(extra === "Merge") extraColor = chalk.yellow;
 
     return extraColor;
 }

@@ -3,10 +3,12 @@ import { readdirSync, lstatSync } from 'fs';
 import path from 'path';
 import url from 'url';
 import logger from './logger.js';
+import Database from './database.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express();
+const db = new Database();
 
 app.set('views', __dirname + "../views");
 app.set('view engine', 'ejs');
@@ -37,3 +39,5 @@ readRoutesDir(routesDir);
 app.listen(3000, () => {
     console.log('App listening on port 3000!');
 });
+
+export default db;
