@@ -1,4 +1,8 @@
+body {
+    background-image: url('/images/dark-honeycomb.png');
+}
+
 h1 {
-    color: red;
-    background-color: yellow;
+    color: #5674b6;
+    text-align: center;
 }
