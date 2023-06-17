@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import db from "../index.js";
 import bcrypt from 'bcrypt';
+import User from "../types/User.js";
 
 const router = Router();
 const path = "/login";
@@ -15,7 +16,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
     const username = req.body['login'];
     const password = req.body['password'];
 
-    const ifFound = await db.select(`users:${username}`);
+    const ifFound = await db.select<User>(`users:${username}`);
     if(typeof ifFound === 'undefined') {
         res.redirect('/login?form=login&error=invalidCredentials');
         return;

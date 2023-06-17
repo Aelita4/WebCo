@@ -27,10 +27,10 @@ export default class Database {
         return this.db.query(sql);
     }
 
-    public async select(sql: string) {
+    public async select<T extends object>(sql: string) {
         logger("DB", "Get", sql);
         const returnArray = await this.db.query(`SELECT * FROM ${sql}`);
-        const result = (returnArray[0].result as Array<any>)[0];
+        const result = (returnArray[0].result as Array<T>)[0];
         return result;
     }
 
