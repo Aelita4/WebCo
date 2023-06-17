@@ -6,3 +6,81 @@ h1 {
     color: #5674b6;
     text-align: center;
 }
+
+.login-box {
+    width: 420px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.login-switcher {
+    display: flex;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.login-switcher-button {
+    background-color: #ababab;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.login-switcher-button#switcher-register {
+    margin-left: 20px;
+    margin-right: -20px;
+}
+
+.login-switcher-spacer {
+    flex-grow: 1;
+    background-color: black;
+}
+
+.login-dialog {
+    width: 400px;
+    margin: 0 auto;
+    background-image: -moz-linear-gradient(left, teal, blue);
+    border-radius: 0px 0px 5px 5px;
+    padding: 20px;
+}
+
+.login-dialog form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-dialog input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.metamask-button {
+    background-color: orange;
+    border: none;
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.login-dialog p {
+    color: #fff;
+    text-align: center;
+    margin-top: 0;
+}
+
+.login-dialog a {
+    color: #d3ff00;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none;
+}
