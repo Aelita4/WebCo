@@ -17,7 +17,7 @@
             <div class="login-switcher-spacer"></div>
         </div>
         <div class="login-dialog" id="login">
-            <form method="POST" action="/api/auth/login">
+            <form method="POST" action="/login/log">
                 <input type="text" name="login" placeholder="login" required>
                 <input type="password" name="password" placeholder="password" required>
                 <input type="submit" value="login">
@@ -26,7 +26,7 @@
             </form>
         </div>
         <div class="login-dialog hidden" id="register">
-            <form method="POST" action="/api/auth/register">
+            <form method="POST" action="/login/reg">
                 <input type="text" name="login" placeholder="login" required>
                 <input type="email" name="email" placeholder="email" required>
                 <input type="password" name="password" placeholder="password" required>
