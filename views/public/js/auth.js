@@ -70,8 +70,8 @@ function toggle() {
     login.classList.toggle('hidden');
     register.classList.toggle('hidden');
 
-    const loginButton = document.querySelector('.login-switcher-button #switcher-login');
-    const registerButton = document.querySelector('.login-switcher-button #switcher-register');
+    const loginButton = document.querySelector('.login-switcher-button#switcher-login');
+    const registerButton = document.querySelector('.login-switcher-button#switcher-register');
 
     if(loginButton.hasAttribute("onclick")) {
         loginButton.removeAttribute("onclick");
