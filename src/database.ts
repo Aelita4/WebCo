@@ -1,23 +1,23 @@
 import Surreal from "surrealdb.js";
 import logger from "./logger.js";
-
+import config from "./config.js";
 export default class Database {
     public db: Surreal;
 
     constructor() {
         logger("DB", "Login", "Connecting to the database...")
-        this.db = new Surreal(`http://webco_db:8000/rpc`);
+        this.db = new Surreal(config.database.url);
 
         this.login();
     }
 
     public async login() {
         await this.db.signin({
-            user: 'aelita',
-            pass: 'root'
+            user: config.database.user,
+            pass: config.database.pass
         });
     
-        await this.db.use({ ns: 'dev', db: 'webcolony' });
+        await this.db.use({ ns: config.database.ns, db: config.database.db });
 
         logger("DB", "Login", "Logged in");
     }
