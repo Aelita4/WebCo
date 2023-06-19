@@ -5,24 +5,12 @@ import User from "../../types/User.js";
 const router = Router();
 const path = "/api/auth";
 
-router.get(`${path}/metamask/:address`, async (req: Request, res: Response) => {
+router.post(`${path}/metamask/:address`, async (req: Request, res: Response) => {
     const address = req.params.address;
-    res.json(await db.selectWhere('users', `address = '${address}'`));
-});
+    const findAddr = await db.selectWhere('users', `address = '${address}'`);
+    const userFound = typeof findAddr !== 'undefined';
 
-router.get(`${path}/login`, async (req: Request, res: Response) => {
-    const user: User = await db.select('users:gargamel');
-    req.session.user = user.username;
-    return res.status(200).json({ code: 200, message: "OK" });
-});
-
-router.get(`${path}/register`, async (req: Request, res: Response) => {
-    await db.create('users:gargamel', {
-        username: 'gargamel',
-        address: '0x1234567890'
-    });
-
-    return res.status(200).json({ code: 200, message: "OK" });
+    res.status(200).json({ code: 200, message: "OK", userFound });
 });
 
 router.get(`${path}/logout`, async (req: Request, res: Response) => {
