@@ -19,7 +19,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
     const username = req.body['login'];
     const password = req.body['password'];
 
-    const ifFound = await db.select<User>(`users:${username}`);
+    const ifFound = await db.selectWhere(`users`, `username = '${username}' OR email = '${username}'`);
     if(typeof ifFound === 'undefined') {
         res.redirect('/login?form=login&error=invalidCredentials');
         return;
@@ -76,10 +76,21 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
 
     const hash = await encryptPassword(password);
 
-    await db.create(`users:${username}`, {
+    const user: User = (await db.create(`users`, {
         username,
         email,
         password: hash
+    }))[0];
+
+    await db.create(`resources`, {
+        owner: user.id,
+        wood: 0,
+        iron: 0,
+        copper: 0,
+        gold: 0,
+        coal: 0,
+        oil: 0,
+        uranium: 0,
     });
 
     req.session['user'] = username;
