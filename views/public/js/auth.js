@@ -11,7 +11,7 @@ async function metamaskAuth() {
         try {
             const address = (await ethereum.request({ method: 'eth_requestAccounts' }))[0];
 
-            const response = await fetch(`/api/auth/metamask/${address}`, {
+            const response = await fetch(`/auth/metamask/verify/${address}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ async function metamaskAuth() {
             const data = await response.json();
 
             if(data.userFound) window.location.href = '/game';
-            else window.location.href = `/metamaskRegister`;
+            else window.location.href = `/metamaskRegister?address=${address}`;
         } catch (err) {
             console.log(err);
             window.location.reload();
