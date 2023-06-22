@@ -1,0 +1,14 @@
+{
+    "resources": {
+        "wood": "Wood",
+        "iron": "Iron",
+        "copper": "Copper",
+        "gold": "Gold",
+        "coal": "Coal",
+        "oil": "Oil",
+        "uranium": "Uranium"
+    },
+    "buildings": {
+        "iron_mine": "Iron Mine"
+    }
+}

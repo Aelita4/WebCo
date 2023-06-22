@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon shortcut" href="/favicon.ico">
+    <title>WebCo</title>
+</head>
+<body>
+    <%- include("../partials/navbar.ejs", { loggedIn: true }); %>
+    <h2>Hello <%= user %></h2>
+    <p>Your resources:</p>
+    <ul id="resources">
+        <% for(const [name, amount] of Object.entries(resources)) { %>
+        <li><p id="resource-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
+        <% } %>
+    </ul>
+    <p>Your buildings:</p>
+    <ul id="buildings">
+        <% for(const [name, amount] of Object.entries(buildings)) { %>
+        <li><p id="building-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
+        <% } %>
+    </ul>
+    <script src="js/game.js"></script>
+</body>
+</html>

@@ -19,7 +19,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
     const username = req.body['login'];
     const password = req.body['password'];
 
-    const ifFound = await db.selectWhere(`users`, `username = '${username}' OR email = '${username}'`);
+    const ifFound: User = await db.selectWhere(`users`, `username = '${username}' OR email = '${username}'`);
     if(typeof ifFound === 'undefined') {
         res.redirect('/login?form=login&error=invalidCredentials');
         return;
@@ -33,6 +33,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
     }
 
     req.session['user'] = username;
+    req.session['userId'] = ifFound.id;
     res.redirect('/game');
 });
 
@@ -93,7 +94,13 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
         uranium: 0,
     });
 
+    await db.create(`buildings`, {
+        owner: user.id,
+        iron_mine: 0,
+    });
+
     req.session['user'] = username;
+    req.session['userId'] = user.id;
     res.redirect('/game');
 });
 

@@ -56,6 +56,7 @@ app.listen(3000, () => {
 declare module "express-session" {
 	interface SessionData {
 		user: string;
+    userId: string;
 		isMetamask: boolean;
 		token: string;
 	}

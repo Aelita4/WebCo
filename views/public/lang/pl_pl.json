@@ -1,0 +1,14 @@
+{
+    "resources": {
+        "wood": "Drewno",
+        "iron": "Żelazo",
+        "copper": "Miedź",
+        "gold": "Złoto",
+        "coal": "Węgiel",
+        "oil": "Ropa",
+        "uranium": "Uran"
+    },
+    "buildings": {
+        "iron_mine": "Kopalnia żelaza"
+    }
+}
