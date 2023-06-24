@@ -33,6 +33,14 @@ router.get(`${path}`, async (req: Request, res: Response) => {
     }
 });
 
+router.get(`${path}/account`, async (req: Request, res: Response) => {
+    if(typeof req.session['user'] === 'undefined') return res.redirect('/');
+    res.render('pages/game/account.ejs', {
+        user: req.session['user'],
+        userId: req.session['userId']
+    });
+});
+
 export default {
     path,
     router
