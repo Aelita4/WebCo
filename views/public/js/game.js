@@ -1,20 +1,22 @@
 (async () => {
-    const resources = document.querySelector('#resources');
-    const buildings = document.querySelector('#buildings');
+    const urlParams = new URLSearchParams(window.location.search);
+    if(urlParams.get('view') !== 'galaxy') {
+        const resources = document.querySelector('#resources');
+        const buildings = document.querySelector('#buildings');
 
-    const lang = await fetch('/lang/en_us.json').then(res => res.json());
+        const lang = await fetch('/lang/en_us.json').then(res => res.json());
 
-    for(let i = 0; i < resources.children.length; i++) {
-        const id = resources.children[i].children[0].id.slice(9);
-        resources.children[i].children[0].innerHTML = `${lang.resources[id]}: 0`;
-        initRefresh(id, Math.random() * 100_000_000_000, lang);
+        for(let i = 0; i < resources.children.length; i++) {
+            const id = resources.children[i].children[0].id.slice(9);
+            resources.children[i].children[0].innerHTML = `${lang.resources[id]}: 0`;
+            initRefresh(id, Math.random() * 100_000_000_000, lang);
+        }
+
+        for(let i = 0; i < buildings.children.length; i++) {
+            const id = buildings.children[i].children[0].id.slice(9);
+            buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: 0`;
+        }
     }
-
-    for(let i = 0; i < buildings.children.length; i++) {
-        const id = buildings.children[i].children[0].id.slice(9);
-        buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: 0`;
-    }
-
 })();
 
 function initRefresh(resource, perSecond, lang) {
@@ -42,4 +44,18 @@ function numToHumanReadable(num) {
         return (num / 1_000).toFixed(2).replace(/\.0$/, '') + 'K';
     }
     return num;
+}
+
+async function spy(playerId) {
+    const resources = (await fetch(`/api/getResources/${playerId}`).then(res => res.json())).resources;
+
+    const resourceFormatted = `Coal: ${numToHumanReadable(resources.coal)}
+Copper: ${numToHumanReadable(resources.copper)}
+Gold: ${numToHumanReadable(resources.gold)}
+Iron: ${numToHumanReadable(resources.iron)}
+Oil: ${numToHumanReadable(resources.oil)}
+Uranium: ${numToHumanReadable(resources.uranium)}
+Wood: ${numToHumanReadable(resources.wood)}`;
+
+    alert(resourceFormatted);
 }

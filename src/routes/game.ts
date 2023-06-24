@@ -9,12 +9,28 @@ router.get(`${path}`, async (req: Request, res: Response) => {
 
     const resources = (await (await fetch(`http://localhost:3000/api/getResources/${req.session['userId']}`)).json() as any).resources;
     const buildings = (await (await fetch(`http://localhost:3000/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
+    const planets = (await (await fetch(`http://localhost:3000/api/getPlanets`)).json() as any).planets;
 
-    res.render('pages/game.ejs', {
+    const data = {
         user: req.session['user'],
+        userId: req.session['userId'],
         resources,
-        buildings
-    });
+        buildings,
+        planets
+    }
+
+    switch(req.query['view']) {
+        case 'overview':
+        default:
+            res.render('pages/game/overview.ejs', data);
+            break;
+        case 'buildings':
+            res.render('pages/game/buildings.ejs', data);
+            break;
+        case 'galaxy':
+            res.render('pages/game/galaxy.ejs', data);
+            break;
+    }
 });
 
 export default {

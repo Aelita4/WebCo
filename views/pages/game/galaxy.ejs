@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon shortcut" href="/favicon.ico">
+    <title>WebCo</title>
+</head>
+<body>
+    <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
+    <table border="1" style="color: white;">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Planet</th>
+                <th>Owner</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(const planet of planets) { %>
+            <tr>
+                <td><%= planet.position %></td>
+                <td><%= planet.name %></td>
+                <td><%= planet.owner.username %></td>
+                <% if(planet.owner.id == userId) { %>
+                <td><a href="/game?view=overview">Overview</a></td>
+                <% } else { %>
+                <td><a href="#" onclick="spy('<%= planet.owner.id %>')">Spy</a> <a href="#" onclick="attack('<%= planet.id %>')">Attack</a></td>
+                <% } %>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+    <script src="js/game.js"></script>
+</body>
+</html>

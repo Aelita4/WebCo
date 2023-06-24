@@ -63,6 +63,11 @@ router.post(`${path}/metamask/create`, async (req: Request, res: Response) => {
         iron_mine: 0,
     });
 
+    await db.create(`planets`, {
+        owner: user.id,
+        name: 'Default Planet'
+    });
+
     req.session['user'] = username;
     req.session['userId'] = user.id;
     res.redirect('/game');
