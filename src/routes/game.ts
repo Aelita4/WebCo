@@ -19,18 +19,8 @@ router.get(`${path}`, async (req: Request, res: Response) => {
         planets
     }
 
-    switch(req.query['view']) {
-        case 'overview':
-        default:
-            res.render('pages/game/overview.ejs', data);
-            break;
-        case 'buildings':
-            res.render('pages/game/buildings.ejs', data);
-            break;
-        case 'galaxy':
-            res.render('pages/game/galaxy.ejs', data);
-            break;
-    }
+    if(["overview", "buildings", "galaxy"].indexOf(req.query['view'] as string) === -1) return res.render('pages/game/overview.ejs', data);
+    else return res.render(`pages/game/${req.query['view']}.ejs`, data);
 });
 
 router.get(`${path}/account`, async (req: Request, res: Response) => {
