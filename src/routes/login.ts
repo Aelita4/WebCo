@@ -32,6 +32,10 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
         return;
     }
 
+    await db.merge(ifFound.id, {
+        lastSeen: new Date().getTime()
+    });
+
     req.session['user'] = username;
     req.session['userId'] = ifFound.id;
     res.redirect('/game');
@@ -80,7 +84,8 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
     const user: User = (await db.create(`users`, {
         username,
         email,
-        password: hash
+        password: hash,
+        lastSeen: new Date().getTime()
     }))[0];
 
     await db.create(`resources`, {

@@ -44,7 +44,8 @@ router.post(`${path}/metamask/create`, async (req: Request, res: Response) => {
         username,
         email,
         address,
-        isMetamask: true
+        isMetamask: true,
+        lastSeen: new Date().getTime()
     }))[0];
 
     await db.create(`resources`, {
