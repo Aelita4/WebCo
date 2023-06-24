@@ -17,6 +17,7 @@
                 <th>Planet</th>
                 <th>Owner</th>
                 <th>Actions</th>
+                <th>Activity</th>
             </tr>
         </thead>
         <tbody>
@@ -26,9 +27,23 @@
                 <td><%= planet.name %></td>
                 <td><%= planet.owner.username %></td>
                 <% if(planet.owner.id == userId) { %>
-                <td><a href="/game?view=overview">Overview</a></td>
+                <td><a class="galaxy-action" href="/game?view=overview">Overview</a></td>
+                <td>now</td>
                 <% } else { %>
-                <td><a href="#" onclick="spy('<%= planet.owner.id %>')">Spy</a> <a href="#" onclick="attack('<%= planet.id %>')">Attack</a></td>
+                <td><a class="galaxy-action" href="#" onclick="spy('<%= planet.owner.id %>')">Spy</a> <a class="galaxy-action" href="#" onclick="attack('<%= planet.id %>')">Attack</a></td>
+                <% const minutesSinceActive = Math.floor((Date.now() - planet.owner.lastSeen) / 1000) / 60; %>
+                <td title="<%= new Date(planet.owner.lastSeen).toISOString() %>">
+                <% if(minutesSinceActive < 5) { %>
+                <%= "recently" %>
+                <% } else if(minutesSinceActive < 10) { %>
+                <%= "5m" %>
+                <% } else if(minutesSinceActive < 15) { %>
+                <%= "10m" %>
+                <% } else if(minutesSinceActive < 20) { %>
+                <%= "15m" %>
+                <% } else { %>
+                <%= "long ago" %>
+                <% } %>
                 <% } %>
             </tr>
             <% } %>

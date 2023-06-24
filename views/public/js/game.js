@@ -7,23 +7,23 @@
         const lang = await fetch('/lang/en_us.json').then(res => res.json());
 
         for(let i = 0; i < resources.children.length; i++) {
-            const id = resources.children[i].children[0].id.slice(9);
-            resources.children[i].children[0].innerHTML = `${lang.resources[id]}: 0`;
-            initRefresh(id, Math.random() * 100_000_000_000, lang);
+            const id = resources.children[i].children[0].id.slice(14);
+            resources.children[i].children[0].innerHTML = `${lang.resources[id]}: `;
+            initRefresh(id, Math.random() * 100_000_000_000);
         }
 
         for(let i = 0; i < buildings.children.length; i++) {
-            const id = buildings.children[i].children[0].id.slice(9);
-            buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: 0`;
+            const id = buildings.children[i].children[0].id.slice(14);
+            buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: `;
         }
     }
 })();
 
-function initRefresh(resource, perSecond, lang) {
+function initRefresh(resource, perSecond) {
     setInterval(() => {
-        const element = document.querySelector(`#resource-${resource}`);
+        const element = document.querySelector(`#resource-amount-${resource}`);
         const value = parseFloat(element.getAttribute('amount'));
-        element.innerHTML = `${lang.resources[resource]}: ${numToHumanReadable(value + perSecond)}`;
+        element.innerHTML = numToHumanReadable(value + perSecond);
         element.setAttribute('amount', value + perSecond);
     }, 1_000);
 }

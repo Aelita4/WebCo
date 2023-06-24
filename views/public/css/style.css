@@ -92,3 +92,12 @@ h2 {
 p {
     color: white;
 }
+
+span {
+    color: white;
+}
+
+.galaxy-action:visited,
+.galaxy-action:link {
+    color: #d3ff00;
+}

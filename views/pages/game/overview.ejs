@@ -14,13 +14,13 @@
     <p>Your resources:</p>
     <ul id="resources">
         <% for(const [name, amount] of Object.entries(resources)) { %>
-        <li><p id="resource-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
+        <li><span id="resource-name-<%= name %>"><%= name %>: </span><span id="resource-amount-<%= name %>" amount=0><%= amount %></span></li>
         <% } %>
     </ul>
     <p>Your buildings:</p>
     <ul id="buildings">
         <% for(const [name, amount] of Object.entries(buildings)) { %>
-        <li><p id="building-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
+        <li><span id="building-name-<%= name %>"><%= name %>: </span><span id="building-amount-<%= name %>" amount=0><%= amount %></span></li>
         <% } %>
     </ul>
     <script src="js/game.js"></script>
