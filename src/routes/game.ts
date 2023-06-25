@@ -7,9 +7,11 @@ const path = "/game";
 router.get(`${path}`, async (req: Request, res: Response) => {
     if(typeof req.session['user'] === 'undefined') return res.redirect('/');
 
-    const resources = (await (await fetch(`http://localhost:3000/api/getResources/${req.session['userId']}`)).json() as any).resources;
-    const buildings = (await (await fetch(`http://localhost:3000/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
-    const planets = (await (await fetch(`http://localhost:3000/api/getPlanets`)).json() as any).planets;
+    const url = req.protocol + '://' + req.get('host');
+
+    const resources = (await (await fetch(`${url}/api/getResources/${req.session['userId']}`)).json() as any).resources;
+    const buildings = (await (await fetch(`${url}/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
+    const planets = (await (await fetch(`${url}/api/getPlanets`)).json() as any).planets;
 
     const data = {
         user: req.session['user'],

@@ -5,6 +5,7 @@ import url from 'url';
 import logger from './logger.js';
 import Database from './database.js';
 import session from 'express-session';
+import config from './config.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -49,8 +50,8 @@ function readRoutesDir(dir: string) {
 
 readRoutesDir(routesDir);
 
-app.listen(3000, () => {
-  	console.log('App listening on port 3000!');
+app.listen(config.port, () => {
+  	logger("WEB", "Server", `Listening on port ${config.port}`);
 });
 
 declare module "express-session" {
