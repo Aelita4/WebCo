@@ -26,6 +26,19 @@
     //     buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: `;
     // }
     
+    const kurvixETA = document.querySelector('#kurvix-eta');
+    const kurvixProgress = document.querySelector('#kurvix-progress');
+    const json = JSON.parse(kurvixProgress.getAttribute('data-json'));
+
+    setInterval(() => {
+        const now = new Date().getTime();
+        const eta = Math.floor((json.arrival - now) / 1000);
+        const elapsed = Math.floor((json.arrival - json.departed) / 1000) - eta;
+
+        kurvixETA.innerHTML = `${eta}s`;
+        kurvixProgress.setAttribute("value", (elapsed / Math.floor((json.arrival - json.departed) / 1000)) * 100)
+    }, 1000);
+    
 })();
 
 function initRefresh(resource, perSecond) {
@@ -67,4 +80,8 @@ Uranium: ${numToHumanReadable(resources.uranium)}
 Wood: ${numToHumanReadable(resources.wood)}`;
 
     alert(resourceFormatted);
+}
+
+async function attack(playerId) {
+
 }
