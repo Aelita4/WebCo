@@ -12,6 +12,7 @@
     <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
     <%- include("../../partials/resourcebar.ejs", { resources }); %>
     <h2>Hello <%= user %></h2>
+    <p>Your access token: <%= accessToken %></p>
     <a href="/auth/logout">logout</a>
     <script src="/js/game.js"></script>
 </body>

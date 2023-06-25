@@ -1,5 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import fetch from "node-fetch";
+import db from "../index.js";
+import User from "../types/User.js";
 
 const router = Router();
 const path = "/game";
@@ -9,7 +11,7 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 
     const url = req.protocol + '://' + req.get('host');
 
-    res.locals.resources = (await (await fetch(`${url}/api/getResources/${req.session['userId']}`)).json() as any).resources;
+    res.locals.resources = (await (await fetch(`${url}/api/getResources/${req.session['userId']}`, { headers: { "Authorization": req.session['accessToken'] || "" } })).json() as any).resources;
     res.locals.buildings = (await (await fetch(`${url}/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
     res.locals.planets = (await (await fetch(`${url}/api/getPlanets`)).json() as any).planets;
 
@@ -33,10 +35,14 @@ router.get(`${path}`, async (req: Request, res: Response) => {
 
 router.get(`${path}/account`, async (req: Request, res: Response) => {
     if(typeof req.session['user'] === 'undefined') return res.redirect('/');
+
+    const accessToken = (await db.get<User>(req.session['userId'] || ""))[0].tmp;
+
     res.render('pages/game/account.ejs', {
         user: req.session['user'],
         userId: req.session['userId'],
-        resources: res.locals.resources
+        resources: res.locals.resources,
+        accessToken
     });
 });
 

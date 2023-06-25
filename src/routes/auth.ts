@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import db from "../index.js";
 import User from "../types/User.js";
+import { createHmac } from 'crypto';
 
 const router = Router();
 const path = "/auth";
@@ -13,6 +14,7 @@ router.post(`${path}/metamask/verify/:address`, async (req: Request, res: Respon
     if(userFound) {
         req.session['user'] = findAddr.username;
         req.session['userId'] = findAddr.id;
+        req.session['accessToken'] = findAddr.tmp;
     }
 
     res.status(200).json({ code: 200, message: "OK", userFound });
@@ -45,12 +47,16 @@ router.post(`${path}/metamask/create`, async (req: Request, res: Response) => {
         return;
     }
 
+    const accessToken = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+
     const user: User = (await db.create(`users`, {
         username,
         email,
         address,
         isMetamask: true,
-        lastSeen: new Date().getTime()
+        lastSeen: new Date().getTime(),
+        accessToken: createHmac('sha256', accessToken).digest('hex'),
+        tmp: accessToken
     }))[0];
 
     await db.create(`resources`, {
@@ -79,6 +85,7 @@ router.post(`${path}/metamask/create`, async (req: Request, res: Response) => {
 
     req.session['user'] = username;
     req.session['userId'] = user.id;
+    req.session['accessToken'] = accessToken;
     res.redirect('/game');
 });
 

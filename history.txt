@@ -1,0 +1,5 @@
+#V2
+SELECT * FROM resources
+SELECT * FROM users
+UPDATE users:ysfzih8klavot6e51nnf SET accessToken=e3529833e1fc8af54186bcf73b0c7eb47e1132c6b4ed25946426c96087437868
+SELECT * FROM users

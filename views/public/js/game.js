@@ -56,7 +56,7 @@ function numToHumanReadable(num) {
 }
 
 async function spy(playerId) {
-    const resources = (await fetch(`/api/getResources/${playerId}`).then(res => res.json())).resources;
+    const resources = (await fetch(`/api/getResources/${playerId}`, { headers: { "Authorization": "spy" } }).then(res => res.json())).resources;
 
     const resourceFormatted = `Coal: ${numToHumanReadable(resources.coal)}
 Copper: ${numToHumanReadable(resources.copper)}

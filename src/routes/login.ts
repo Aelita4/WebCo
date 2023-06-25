@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import db from "../index.js";
 import bcrypt from 'bcrypt';
 import User from "../types/User.js";
+import { createHmac } from 'crypto';
 
 const router = Router();
 const path = "/login";
@@ -26,7 +27,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
     }
 
     const hash = ifFound.password;
-    const isPasswordCorrect = await validatePassword(password, hash);
+    const isPasswordCorrect = await validatePassword(password, hash || '');
     if(!isPasswordCorrect) {
         res.redirect('/login?form=login&error=invalidCredentials');
         return;
@@ -38,6 +39,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
 
     req.session['user'] = username;
     req.session['userId'] = ifFound.id;
+    req.session['accessToken'] = ifFound.tmp;
     res.redirect('/game');
 });
 
@@ -80,12 +82,16 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
     }
 
     const hash = await encryptPassword(password);
+    const accessToken = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
 
     const user: User = (await db.create(`users`, {
         username,
         email,
         password: hash,
-        lastSeen: new Date().getTime()
+        isMetamask: false,
+        lastSeen: new Date().getTime(),
+        accessToken: createHmac('sha256', accessToken).digest('hex'),
+        tmp: accessToken
     }))[0];
 
     await db.create(`resources`, {
@@ -114,6 +120,7 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
 
     req.session['user'] = username;
     req.session['userId'] = user.id;
+    req.session['accessToken'] = accessToken;
     res.redirect('/game');
 });
 

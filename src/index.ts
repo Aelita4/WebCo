@@ -71,6 +71,7 @@ declare module "express-session" {
     userId: string;
 		isMetamask: boolean;
 		token: string;
+    accessToken: string;
 	}
 }
 
