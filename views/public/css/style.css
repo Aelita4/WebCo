@@ -22,11 +22,15 @@ h1 {
 }
 
 .login-switcher-button {
-    background-color: #ababab;
+    background-color: #007786;
     border: none;
     width: 100%;
     padding: 10px;
     border-radius: 5px 5px 0px 0px;
+}
+
+.switcher-active {
+    background-color: #00f3ff;
 }
 
 .login-switcher-button#switcher-register {

@@ -12,8 +12,8 @@
     <%- include("../partials/navbar.ejs", { loggedIn: false }); %>
     <div class="login-box">
         <div class="login-switcher">
-            <div class="login-switcher-button" id="switcher-login">login</div>
-            <div class="login-switcher-button" id="switcher-register" onclick="toggle()">register</div>
+            <div class="login-switcher-button<% if(form === "login") { %> switcher-active <% } %>" id="switcher-login" <% if(form === "register") { %>onclick="toggle()"<% } %>>login</div>
+            <div class="login-switcher-button<% if(form === "register") { %> switcher-active <% } %>" id="switcher-register" <% if(form === "login") { %>onclick="toggle()"<% } %>>register</div>
             <div class="login-switcher-spacer"></div>
         </div>
         <div class="login-dialog<% if(form === "register") { %> hidden<% } %>" id="login">

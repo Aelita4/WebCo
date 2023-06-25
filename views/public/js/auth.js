@@ -34,12 +34,14 @@ async function metamaskAuth() {
 function toggle() {
     const login = document.querySelector('#login');
     const register = document.querySelector('#register');
+    const loginButton = document.querySelector('.login-switcher-button#switcher-login');
+    const registerButton = document.querySelector('.login-switcher-button#switcher-register');
 
     login.classList.toggle('hidden');
     register.classList.toggle('hidden');
+    loginButton.classList.toggle('switcher-active');
+    registerButton.classList.toggle('switcher-active');
 
-    const loginButton = document.querySelector('.login-switcher-button#switcher-login');
-    const registerButton = document.querySelector('.login-switcher-button#switcher-register');
 
     if(loginButton.hasAttribute("onclick")) {
         loginButton.removeAttribute("onclick");
