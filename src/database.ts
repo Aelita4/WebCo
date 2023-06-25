@@ -39,9 +39,9 @@ export default class Database {
         return this.db.create(thing, { createdAt: new Date(), updatedAt: new Date(), ...data });
     }
 
-    public async get(table: string, id?: string) {
+    public async get<T extends object>(table: string, id?: string) {
         logger("DB", "Get", `${table} ${id ? id : ""}`);
-        return this.db.select(`${table}${id ? `:${id}` : ""}`);
+        return (this.db.select<Record<string, T>>(`${table}${id ? `:${id}` : ""}`)) as Promise<Array<T>>;
     }
 
     public async merge(table: string, data: any) {

@@ -6,6 +6,9 @@ import logger from './logger.js';
 import Database from './database.js';
 import session from 'express-session';
 import config from './config.js';
+import resourceRefresh from './resourceRefresh.js';
+import { setTimeout } from 'timers/promises';
+import User from './types/User.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
@@ -50,8 +53,16 @@ function readRoutesDir(dir: string) {
 
 readRoutesDir(routesDir);
 
-app.listen(config.port, () => {
+app.listen(config.port, async () => {
   	logger("WEB", "Server", `Listening on port ${config.port}`);
+
+    await setTimeout(1000);
+
+    const users = await db.get<User>("users");
+
+    users.forEach(async (user: User) => {
+        resourceRefresh(user);
+    });
 });
 
 declare module "express-session" {

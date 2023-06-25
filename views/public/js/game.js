@@ -4,12 +4,13 @@
         const resources = document.querySelector('#resources');
         const buildings = document.querySelector('#buildings');
 
+        const defaultMiningRates = await fetch('/api/getDefaultMiningRates').then(res => res.json());
         const lang = await fetch('/lang/en_us.json').then(res => res.json());
 
         for(let i = 0; i < resources.children.length; i++) {
             const id = resources.children[i].children[0].id.slice(14);
             resources.children[i].children[0].innerHTML = `${lang.resources[id]}: `;
-            initRefresh(id, Math.random() * 100_000_000_000);
+            initRefresh(id, defaultMiningRates.rates[id]);
         }
 
         for(let i = 0; i < buildings.children.length; i++) {
