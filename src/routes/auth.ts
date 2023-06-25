@@ -7,8 +7,13 @@ const path = "/auth";
 
 router.post(`${path}/metamask/verify/:address`, async (req: Request, res: Response) => {
     const address = req.params.address;
-    const findAddr = await db.selectWhere('users', `address = '${address}'`);
+    const findAddr: User = await db.selectWhere('users', `address = '${address}'`);
     const userFound = typeof findAddr !== 'undefined';
+
+    if(userFound) {
+        req.session['user'] = findAddr.username;
+        req.session['userId'] = findAddr.id;
+    }
 
     res.status(200).json({ code: 200, message: "OK", userFound });
 });
