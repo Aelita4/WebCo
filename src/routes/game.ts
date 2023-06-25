@@ -1,24 +1,30 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import fetch from "node-fetch";
 
 const router = Router();
 const path = "/game";
 
-router.get(`${path}`, async (req: Request, res: Response) => {
+router.use(async (req: Request, res: Response, next: NextFunction) => {
     if(typeof req.session['user'] === 'undefined') return res.redirect('/');
 
     const url = req.protocol + '://' + req.get('host');
 
-    const resources = (await (await fetch(`${url}/api/getResources/${req.session['userId']}`)).json() as any).resources;
-    const buildings = (await (await fetch(`${url}/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
-    const planets = (await (await fetch(`${url}/api/getPlanets`)).json() as any).planets;
+    res.locals.resources = (await (await fetch(`${url}/api/getResources/${req.session['userId']}`)).json() as any).resources;
+    res.locals.buildings = (await (await fetch(`${url}/api/getBuildings/${req.session['userId']}`)).json() as any).buildings;
+    res.locals.planets = (await (await fetch(`${url}/api/getPlanets`)).json() as any).planets;
+
+    next();
+});
+
+router.get(`${path}`, async (req: Request, res: Response) => {
+    if(typeof req.session['user'] === 'undefined') return res.redirect('/');
 
     const data = {
         user: req.session['user'],
         userId: req.session['userId'],
-        resources,
-        buildings,
-        planets
+        resources: res.locals.resources,
+        buildings: res.locals.buildings,
+        planets: res.locals.planets
     }
 
     if(["overview", "buildings", "galaxy"].indexOf(req.query['view'] as string) === -1) return res.render('pages/game/overview.ejs', data);
@@ -29,7 +35,8 @@ router.get(`${path}/account`, async (req: Request, res: Response) => {
     if(typeof req.session['user'] === 'undefined') return res.redirect('/');
     res.render('pages/game/account.ejs', {
         user: req.session['user'],
-        userId: req.session['userId']
+        userId: req.session['userId'],
+        resources: res.locals.resources
     });
 });
 

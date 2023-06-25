@@ -10,13 +10,8 @@
 </head>
 <body>
     <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
+    <%- include("../../partials/resourcebar.ejs", { resources }); %>
     <h2>Hello <%= user %></h2>
-    <p>Your resources:</p>
-    <ul id="resources">
-        <% for(const [name, amount] of Object.entries(resources)) { %>
-        <li><span id="resource-name-<%= name %>"><%= name %>: </span><span id="resource-amount-<%= name %>" amount=<%= amount %>>fetching...</span></li>
-        <% } %>
-    </ul>
     <p>Your buildings:</p>
     <ul id="buildings">
         <% for(const [name, amount] of Object.entries(buildings)) { %>

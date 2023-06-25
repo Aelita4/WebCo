@@ -1,0 +1,27 @@
+:root {
+    --left-gradient: #694848;
+    --right-gradient: #323488;
+}
+
+#resourcebar {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+    justify-content: space-around;
+    background-image: linear-gradient(right, var(--right-gradient), var(--left-gradient));
+    background-image: -o-linear-gradient(right, var(--right-gradient), var(--left-gradient));
+    background-image: -moz-linear-gradient(right, var(--right-gradient), var(--left-gradient));
+    background-image: -webkit-linear-gradient(right, var(--right-gradient), var(--left-gradient));
+    border-radius: 10px;
+}
+
+.resourcebar-element {
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+}

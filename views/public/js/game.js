@@ -1,23 +1,31 @@
 (async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.get('view') !== 'galaxy') {
-        const resources = document.querySelector('#resources');
-        const buildings = document.querySelector('#buildings');
+    const resourceBar = document.querySelector('#resourcebar');
 
-        const defaultMiningRates = await fetch('/api/getDefaultMiningRates').then(res => res.json());
-        const lang = await fetch('/lang/en_us.json').then(res => res.json());
+    // const resources = document.querySelector('#resources');
+    // const buildings = document.querySelector('#buildings');
 
-        for(let i = 0; i < resources.children.length; i++) {
-            const id = resources.children[i].children[0].id.slice(14);
-            resources.children[i].children[0].innerHTML = `${lang.resources[id]}: `;
-            initRefresh(id, defaultMiningRates.rates[id]);
-        }
+    const resourcesGroups = document.querySelectorAll('.resource-group');
 
-        for(let i = 0; i < buildings.children.length; i++) {
-            const id = buildings.children[i].children[0].id.slice(14);
-            buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: `;
-        }
+    const defaultMiningRates = await fetch('/api/getDefaultMiningRates').then(res => res.json());
+    const lang = await fetch('/lang/en_us.json').then(res => res.json());
+
+    for(let i = 0; i < resourcesGroups.length; i++) {
+        const id = resourcesGroups[i].children[0].id.slice(14);
+        resourcesGroups[i].children[0].innerHTML = lang.resources[id];
+        initRefresh(id, defaultMiningRates.rates[id]);   
     }
+
+    // for(let i = 0; i < resourceBar.children.length; i++) {
+    //     const id = resourceBar.children[i].children[0].id.slice(14);
+    //     resourceBar.children[i].children[0].innerHTML = lang.resources[id];
+    //     initRefresh(id, defaultMiningRates.rates[id]);
+    // }
+
+    // for(let i = 0; i < buildings.children.length; i++) {
+    //     const id = buildings.children[i].children[0].id.slice(14);
+    //     buildings.children[i].children[0].innerHTML = `${lang.buildings[id]}: `;
+    // }
+    
 })();
 
 function initRefresh(resource, perSecond) {

@@ -1,0 +1,25 @@
+<% 
+    const resourceImages = {
+        "wood": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/e/e9/Oak_Log_(UD)_JE5_BE3.png",
+        "coal": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/5/58/Coal_JE4_BE3.png",
+        "iron": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/f/fc/Iron_Ingot_JE3_BE2.png",
+        "gold": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/8/8a/Gold_Ingot_JE4_BE2.png",
+        "copper": "https://static.wikia.nocookie.net/minecraft_gamepedia/images/9/91/Copper_Ingot_JE2_BE1.png",
+        "oil": "https://ftbwiki.org/images/b/b3/Grid_Oil_Bucket_(BuildCraft).png",
+        "uranium": "https://vignette.wikia.nocookie.net/thetekkit/images/8/88/Uranium_Ore.png"
+    }
+%>
+<link rel="stylesheet" href="/css/resourcebar.css">
+<div id="resourcebar">
+    <% for(const [name, amount] of Object.entries(resources)) { %>
+    <div class="resourcebar-element">
+        <div>
+            <img width="44px" height="44px" src="<%= resourceImages[name] %>" />
+        </div>
+        <div id="resource-group-<%= name %>" class="resource-group">
+            <span id="resource-name-<%= name %>"><%= name %></span><br />
+            <span id="resource-amount-<%= name %>" amount=<%= amount %>>fetching...</span>
+        </div>
+    </div>
+    <% } %>
+</div>
