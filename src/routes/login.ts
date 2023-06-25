@@ -104,9 +104,12 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
         iron_mine: 0,
     });
 
+    const planetCount = (await db.get("planets")).length;
+
     await db.create(`planets`, {
         owner: user.id,
-        name: 'Default Planet'
+        name: 'Default Planet',
+        position: planetCount + 1,
     });
 
     req.session['user'] = username;
