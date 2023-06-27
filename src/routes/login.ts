@@ -3,6 +3,7 @@ import db from "../index.js";
 import bcrypt from 'bcrypt';
 import User from "../types/User.js";
 import { createHmac } from 'crypto';
+import resourceRefresh from "../resourceRefresh.js";
 
 const router = Router();
 const path = "/login";
@@ -117,6 +118,8 @@ router.post(`${path}/reg`, async (req: Request, res: Response) => {
         name: 'Default Planet',
         position: planetCount + 1,
     });
+
+    resourceRefresh(user);
 
     req.session['user'] = username;
     req.session['userId'] = user.id;
