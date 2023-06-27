@@ -12,18 +12,46 @@
     <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
     <%- include("../../partials/resourcebar.ejs", { resources }); %>
     <h2>Hello <%= user %></h2>
-    <p>Your resources:</p>
-    <ul id="resources">
-        <% for(const [name, amount] of Object.entries(resources)) { %>
-        <li><p id="resource-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
-        <% } %>
-    </ul>
-    <p>Your buildings:</p>
-    <ul id="buildings">
-        <% for(const [name, amount] of Object.entries(buildings)) { %>
-        <li><p id="building-<%= name %>" amount=0><%= name %>: <%= amount %></p></li>
-        <% } %>
-    </ul>
+    <div class="building-builder-view">
+        chuj
+    </div>
+    <div class="building-builder-main">
+        <div class="building-builder-item" id="div-building-builder-coal-mine">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            coal
+            <button class="building-builder-button" id="button-build-coal-mine" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-copper-mine">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            copper
+            <button class="building-builder-button" id="button-build-copper-mine" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-gold-mine">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            gold
+            <button class="building-builder-button" id="button-build-gold-mine" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-iron-mine">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            iron
+            <button class="building-builder-button" id="button-build-iron-mine" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-oil-pump">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            oil
+            <button class="building-builder-button" id="button-build-oil-pump" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-uranium-mine">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            uranium
+            <button class="building-builder-button" id="button-build-uranium-mine" onclick="build(this)">build/upg</button>
+        </div>
+        <div class="building-builder-item" id="div-building-builder-lumber">
+            <img class="building-builder-photo" src="https://static.wikia.nocookie.net/minecraft_gamepedia/images/d/d1/Iron_Pickaxe_JE3_BE2.png" />
+            wood
+            <button class="building-builder-button" id="button-build-lumber" onclick="build(this)">build/upg</button>
+        </div>
+    </div>
     <script src="/js/game.js"></script>
 </body>
 </html>
