@@ -85,3 +85,18 @@ Wood: ${numToHumanReadable(resources.wood)}`;
 async function attack(playerId) {
 
 }
+
+async function changePlanetName(userId) {
+    const name = prompt("Enter new planet name");
+    if (name == null || name == "") {
+        return;
+    }
+    await fetch('/api/changePlanetName', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, userId })
+    }).then(res => res.json());
+    location.reload();
+}

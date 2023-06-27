@@ -11,7 +11,7 @@
 <body>
     <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
     <%- include("../../partials/resourcebar.ejs", { resources }); %>
-    <h2>Hello <%= user %></h2>
+    <h2>Hello <%= user %>, you are on <%= planets.find(planet => planet.owner.id === userId).name %> <a onclick="changePlanetName('<%= userId %>')">(change)</a></h2>
     <p>Your buildings:</p>
     <ul id="buildings">
         <% for(const [name, amount] of Object.entries(buildings)) { %>
