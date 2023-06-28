@@ -27,7 +27,7 @@ router.post(`${path}`, async (req: Request, res: Response) => {
         lastSeen: new Date().getTime()
     });
 
-    res.status(200).json({ code: 200, message: "OK", accessToken: ifFound.tmp });
+    res.status(200).json({ code: 200, message: "OK", username: ifFound.username, accessToken: ifFound.tmp });
 });
 
 async function validatePassword(password: string, hash: string) {
