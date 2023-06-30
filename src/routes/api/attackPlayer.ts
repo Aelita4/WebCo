@@ -13,10 +13,9 @@ router.post(`${path}/:id`, async (req: Request, res: Response) => {
     const accessToken = req.headers['authorization'];
     if(typeof accessToken === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
 
-    const findUser: User = await db.selectWhere('users', `accessToken = '${createHmac('sha256', accessToken).digest('hex')}'`);
-    if(accessToken !== "atk") {
-        if(typeof findUser === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
-    }
+    // const findUser: User = await db.selectWhere('users', `accessToken = '${createHmac('sha256', accessToken).digest('hex')}'`);
+    const findUser = (await db.get<User>(accessToken))[0];
+    if(typeof findUser === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
 
     const enemyPlayerId = req.params['id'];
 
