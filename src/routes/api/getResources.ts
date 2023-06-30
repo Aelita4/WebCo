@@ -21,11 +21,13 @@ router.get(`${path}/:id`, async (req: Request, res: Response) => {
 
     const findResources = await db.selectWhere('resources', `owner = '${user}'`);
     if(typeof findResources !== 'undefined') {
+        const id = findResources.id;
+
         delete findResources.createdAt;
         delete findResources.updatedAt;
         delete findResources.owner;
         delete findResources.id;
-        res.status(200).json({ code: 200, message: "OK", resources: findResources });
+        res.status(200).json({ code: 200, message: "OK", id, resources: findResources });
     } else {
         res.status(404).json({ code: 404, message: "Not found" });
     }
