@@ -1,22 +1,24 @@
 import { Router, Request, Response } from "express";
 import db from "../../index.js";
+import Planet from "../../types/database/Planet.js";
+import User from "../../types/database/User.js";
 
 const router = Router();
 const path = "/api/getPlanets";
 
 router.get(`${path}`, async (req: Request, res: Response) => {
     const findPlanets = await db.get('planets');
-    const users = await db.get('users');
+    const users = await db.get<User>('users');
 
     const planets: Array<any> = [];
 
     findPlanets.forEach((planet: any) => {
-        planet.owner = users.find((user: any) => user.id === planet.owner) || 'unknown';
+        planet.owner = users.find((user: User) => user.id === planet.owner) || 'unknown';
         planets.push({
             id: planet.id,
             name: planet.name,
             owner: planet.owner,
-            position: planet.position
+            position: planet.position,
         })
     });
 

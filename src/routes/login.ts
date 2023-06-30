@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import db from "../index.js";
 import bcrypt from 'bcrypt';
-import User from "../types/User.js";
+import User from "../types/database/User.js";
 import { createHmac } from 'crypto';
 import resourceRefresh from "../resourceRefresh.js";
 
@@ -34,7 +34,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
         return;
     }
 
-    await db.merge(ifFound.id, {
+    await db.merge((ifFound.id as string), {
         lastSeen: new Date().getTime()
     });
 

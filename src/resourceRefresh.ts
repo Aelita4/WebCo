@@ -1,5 +1,5 @@
 import db from "./index.js";
-import User from "./types/User";
+import User from "./types/database/User";
 
 export default async function(user: User) {
     setInterval(async () => {

@@ -8,7 +8,7 @@ import session from 'express-session';
 import config from './config.js';
 import resourceRefresh from './resourceRefresh.js';
 import { setTimeout } from 'timers/promises';
-import User from './types/User.js';
+import User from './types/database/User.js';
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 

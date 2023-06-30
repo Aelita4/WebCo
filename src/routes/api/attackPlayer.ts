@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import db from "../../index.js";
-import User from "../../types/User.js";
+import User from "../../types/database/User.js";
 import { createHmac } from 'crypto';
 import fetch from 'node-fetch';
 

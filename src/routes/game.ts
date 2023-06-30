@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import fetch from "node-fetch";
 import db from "../index.js";
-import User from "../types/User.js";
+import User from "../types/database/User.js";
 
 const router = Router();
 const path = "/game";

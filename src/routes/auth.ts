@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import db from "../index.js";
-import User from "../types/User.js";
+import User from "../types/database/User.js";
 import { createHmac } from 'crypto';
 import resourceRefresh from "../resourceRefresh.js";
 
@@ -41,7 +41,7 @@ router.post(`${path}/metamask/create`, async (req: Request, res: Response) => {
         return;
     }
 
-    const ifFound = await db.selectWhere('users', `username = '${username}' OR email = '${email}'`);
+    const ifFound: User = await db.selectWhere('users', `username = '${username}' OR email = '${email}'`);
     if(typeof ifFound !== 'undefined') {
         if(ifFound.username === username) res.redirect(`/metamaskRegister?address=${address}&form=register&error=usernameTaken`);
         else if(ifFound.email === email) res.redirect(`/metamaskRegister?address=${address}&form=register&error=emailTaken`);

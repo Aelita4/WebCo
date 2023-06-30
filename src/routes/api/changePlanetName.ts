@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import db from "../../index.js";
+import Planet from "../../types/database/Planet.js";
 import { createHmac } from 'crypto';
 import fetch from "node-fetch";
 
@@ -17,11 +18,11 @@ router.post(`${path}`, async (req: Request, res: Response) => {
     const userId = req.body['userId'];
 
     const planetName = req.body['name'];
-    const findPlanet = await db.selectWhere('planets', `owner = ${userId}`);
+    const findPlanet: Planet = await db.selectWhere('planets', `owner = ${userId}`);
     if(!findPlanet) return res.status(404).json({ code: 404, message: "Not found" });
 
 
-    await db.merge(findPlanet.id, {
+    await db.merge((findPlanet.id as string), {
         name: planetName
     });
 
