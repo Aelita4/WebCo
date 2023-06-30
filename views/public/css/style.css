@@ -101,9 +101,13 @@ span {
     color: white;
 }
 
+.galaxy-action,
+.galaxy-action:link,
 .galaxy-action:visited,
 .galaxy-action:link {
     color: #d3ff00;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .building-builder-main {

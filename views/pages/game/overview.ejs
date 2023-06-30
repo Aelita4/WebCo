@@ -11,13 +11,7 @@
 <body>
     <%- include("../../partials/navbar.ejs", { loggedIn: true }); %>
     <%- include("../../partials/resourcebar.ejs", { resources }); %>
-    <h2>Hello <%= user %>, you are on <%= planets.find(planet => planet.owner.id === userId).name %> <a onclick="changePlanetName('<%= userId %>')">(change)</a></h2>
-    <p>Your buildings:</p>
-    <ul id="buildings">
-        <% for(const [name, amount] of Object.entries(buildings)) { %>
-        <li><span id="building-name-<%= name %>"><%= name %>: </span><span id="building-amount-<%= name %>" amount=<%= amount %>>fetching...</span></li>
-        <% } %>
-    </ul>
+    <h2>Hello <%= user %>,<br />you are on <%= planets.find(planet => planet.owner.id === userId).name %> <a class="galaxy-action" onclick="changePlanetName('<%= userId %>')">(change)</a></h2>
     <script src="/js/game.js"></script>
 </body>
 </html>

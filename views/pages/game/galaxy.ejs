@@ -50,25 +50,6 @@
             <% } %>
         </tbody>
     </table>
-    <!-- <h1>Current fleet</h1>
-    <table border="1" style="color: white;">
-        <thead>
-            <tr>
-                <th>Destination</th>
-                <th>ETA</th>
-                <th>Progress</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% for(const dest of fleet) { %>
-            <tr>
-                <td><%= dest.destination %></td>
-                <td id="kurvix-eta"><%= dest.eta %></td>
-                <td><progress id="kurvix-progress" max="100" value="<%= dest.progress %>" data-json="<%= JSON.stringify(dest) %>"></progress></td>
-            </tr>
-            <% } %>
-        </tbody>
-    </table> -->
     <script src="/js/game.js"></script>
 </body>
 </html>
