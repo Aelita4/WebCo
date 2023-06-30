@@ -8,7 +8,7 @@ const path = "/api/getBuildings";
 router.get(`${path}/:id`, async (req: Request, res: Response) => {
     const findBuildings: Building = await db.selectWhere('buildings', `owner = '${req.params['id']}'`);
     if(typeof findBuildings !== 'undefined') {
-        const build: any = findBuildings;
+        const build: any = JSON.parse(JSON.stringify(findBuildings));
 
         delete build.createdAt;
         delete build.updatedAt;

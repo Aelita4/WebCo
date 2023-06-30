@@ -31,8 +31,6 @@ router.post(`${path}/:id`, async (req: Request, res: Response) => {
         uranium: Math.floor(enemyResources.resources.uranium * 0.1),
     }
 
-    console.log(ownResources, enemyResources, obtained)
-
     await db.merge(ownResources.id, {
         wood: ownResources.resources.wood + obtained.wood,
         iron: ownResources.resources.iron + obtained.iron,
