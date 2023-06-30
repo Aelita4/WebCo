@@ -8,25 +8,43 @@ import Building from "../../types/database/Building.js";
 const router = Router();
 const path = "/api/createBuilding";
 
-router.post(`${path}/:name`, async (req: Request, res: Response) => {
+router.post(`${path}/:userId/:name/:toLevel`, async (req: Request, res: Response) => {
     const url = req.protocol + '://' + req.get('host');
 
     const accessToken = req.headers['authorization'];
-    if(typeof accessToken === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
+    // if(typeof accessToken === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
 
-    const findUser: User = await db.selectWhere('users', `accessToken = '${createHmac('sha256', accessToken).digest('hex')}'`);
-    if(typeof findUser === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
+    const findUser = (await db.get<User>(req.params["userId"]))[0];
+    // const findUser: User = await db.selectWhere('users', `accessToken = '${createHmac('sha256', accessToken).digest('hex')}'`);
+    // if(typeof findUser === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
 
     const building = req.params['name'];
     const findBuilding: Building = await db.selectWhere('buildings', `owner = ${findUser.id}`);
+
+    const toLevel = parseInt(req.params["toLevel"]);
     
-    // TODO: check if player has enough resources
-    const resources = (await (await fetch(`${url}/api/getResources/${findUser.id}`, { headers: { "Authorization": accessToken || "" } })).json() as any).resources;
+    const resources = (await (await fetch(`${url}/api/getResources/${findUser.id}`, { headers: { "Authorization": "spy" } })).json() as any);
+    const costs = (await (await fetch(`${url}/api/getBaseBuildingsCosts`)).json() as any).costs[building];
+    for(const resource in costs) {
+        if(resources.resources[resource] < costs[resource]) return res.status(400).json({ code: 400, message: "Bad request" });
+    }
 
-    const data: any = {};
-    data[building] = (findBuilding[building as keyof(Building)] as number) + 1;
+    await db.merge(resources.id, {
+        wood: resources.resources.wood - costs.wood,
+        iron: resources.resources.iron - costs.iron,
+        copper: resources.resources.copper - costs.copper,
+        gold: resources.resources.gold - costs.gold,
+        coal: resources.resources.coal - costs.coal,
+        oil: resources.resources.oil - costs.oil,
+        uranium: resources.resources.uranium - costs.uranium,
+    })
 
-    await db.merge((findBuilding.id as string), data);
+    // const data: any = {};
+    // data[building] = (findBuilding[building as keyof(Building)] as number) + 1;
+
+    await db.merge(findBuilding.id, {
+        [building]: toLevel
+    });
 
     res.status(200).json({ code: 200, message: "OK" });
     

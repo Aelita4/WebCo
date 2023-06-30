@@ -9,6 +9,12 @@
         "uranium": "Uranium"
     },
     "buildings": {
-        "iron_mine": "Iron Mine"
+        "coal_mine": "Coal Mine",
+        "copper_mine": "Copper Mine",
+        "gold_mine": "Gold Mine",
+        "iron_mine": "Iron Mine",
+        "oil_pump": "Oil Pump",
+        "uranium_mine": "Uranium Mine",
+        "lumber": "Lumber Mill"
     }
 }

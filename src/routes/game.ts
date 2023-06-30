@@ -21,6 +21,9 @@ router.use(async (req: Request, res: Response, next: NextFunction) => {
 router.get(`${path}`, async (req: Request, res: Response) => {
     if(typeof req.session['user'] === 'undefined') return res.redirect('/');
 
+    const url = req.protocol + '://' + req.get('host');
+    const lang = await fetch(`${url}/lang/en_us.json`).then(res => res.json());
+
     const departed = 1687725966858 + 30000;
     const arrival = departed + 30000;
     const eta = Math.floor((arrival - new Date().getTime()) / 1000);
@@ -32,14 +35,15 @@ router.get(`${path}`, async (req: Request, res: Response) => {
         resources: res.locals.resources,
         buildings: res.locals.buildings,
         planets: res.locals.planets,
-        fleet: [{
-            departed,
-            arrival,
-            destination: "Kurvix",
-            eta,
-            elapsed,
-            progress: (elapsed / Math.floor((arrival - departed) / 1000)) * 100
-        }]
+        lang,
+        // fleet: [{
+        //     departed,
+        //     arrival,
+        //     destination: "Kurvix",
+        //     eta,
+        //     elapsed,
+        //     progress: (elapsed / Math.floor((arrival - departed) / 1000)) * 100
+        // }]
     }
 
     if(["overview", "buildings", "galaxy"].indexOf(req.query['view'] as string) === -1) return res.render('pages/game/overview.ejs', data);
