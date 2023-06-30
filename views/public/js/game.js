@@ -99,7 +99,7 @@ Wood: ${numToHumanReadable(resources.wood)}`;
 }
 
 async function attack(playerId) {
-    const response = await fetch(`/api/attackPlayer/${playerId}`, { method: "post", headers: { "Authorization": "fhhsfn8scjll7wi34rurf" } }).then(res => res.json());
+    const response = await fetch(`/api/attackPlayer/${playerId}`, { method: "post", headers: { "Authorization": "atk" } }).then(res => res.json());
 
     if(response.code === 200) {
         window.location.reload();
