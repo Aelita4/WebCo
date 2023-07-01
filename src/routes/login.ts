@@ -38,7 +38,7 @@ router.post(`${path}/log`, async (req: Request, res: Response) => {
         lastSeen: new Date().getTime()
     });
 
-    req.session['user'] = username;
+    req.session['user'] = ifFound.username;
     req.session['userId'] = ifFound.id;
     req.session['accessToken'] = ifFound.tmp;
     res.redirect('/game');
