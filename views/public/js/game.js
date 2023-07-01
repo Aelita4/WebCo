@@ -76,6 +76,7 @@ function initRefresh(resource, perSecond) {
         const value = parseFloat(element.getAttribute('amount'));
         element.innerHTML = numToHumanReadable(value + perSecond);
         element.setAttribute('amount', value + perSecond);
+        element.setAttribute('title', `Amount: ${value + perSecond}\nPer second: ${perSecond}`);
     }, 1_000);
 }
 
