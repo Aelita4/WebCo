@@ -11,6 +11,7 @@ router.post(`${path}/:id`, async (req: Request, res: Response) => {
     const url = req.protocol + '://' + req.get('host');
 
     const accessToken = req.headers['authorization'];
+
     if(typeof accessToken === 'undefined') return res.status(401).json({ code: 401, message: "Unauthorized" });
 
     // const findUser: User = await db.selectWhere('users', `accessToken = '${createHmac('sha256', accessToken).digest('hex')}'`);
@@ -19,7 +20,7 @@ router.post(`${path}/:id`, async (req: Request, res: Response) => {
 
     const enemyPlayerId = req.params['id'];
 
-    const ownResources   = await (await fetch(`${url}/api/getResources/${findUser.id}`,   { headers: { "Authorization": accessToken || "" } })).json() as any;
+    const ownResources   = await (await fetch(`${url}/api/getResources/${findUser.id}`,   { headers: { "Authorization": "spy" } })).json() as any;
     const enemyResources = await (await fetch(`${url}/api/getResources/${enemyPlayerId}`, { headers: { "Authorization": "spy" } })).json() as any;
 
     const obtained = {

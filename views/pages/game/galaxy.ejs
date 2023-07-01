@@ -31,7 +31,7 @@
                 <td><a class="galaxy-action" href="/game?view=overview">Overview</a></td>
                 <td>now</td>
                 <% } else { %>
-                <td><a class="galaxy-action" href="#" onclick="spy('<%= planet.owner.id %>')">Spy</a> <a class="galaxy-action" href="#" onclick="attack('<%= planet.owner.id %>')">Attack</a></td>
+                <td><a class="galaxy-action" href="#" onclick="spy('<%= planet.owner.id %>')">Spy</a> <a class="galaxy-action" href="#" onclick="attack('<%= userId %>', '<%= planet.owner.id %>')">Attack</a></td>
                 <% const minutesSinceActive = Math.floor((Date.now() - planet.owner.lastSeen) / 1000) / 60; %>
                 <td title="<%= new Date(planet.owner.lastSeen).toISOString() %>">
                 <% if(minutesSinceActive < 5) { %>
