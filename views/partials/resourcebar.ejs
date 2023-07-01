@@ -10,6 +10,7 @@
     }
 %>
 <link rel="stylesheet" href="/css/resourcebar.css">
+<div id="div-user-id" style="display: none;" data-user-id="<%= userId %>"></div>
 <div id="resourcebar">
     <% for(const [name, amount] of Object.entries(resources)) { %>
     <div class="resourcebar-element">

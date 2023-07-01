@@ -25,18 +25,30 @@ router.post(`${path}/:userId/:name/:toLevel`, async (req: Request, res: Response
     
     const resources = (await (await fetch(`${url}/api/getResources/${findUser.id}`, { headers: { "Authorization": "spy" } })).json() as any);
     const costs = (await (await fetch(`${url}/api/getBaseBuildingsCosts`)).json() as any).costs[building];
-    for(const resource in costs) {
-        if(resources.resources[resource] < costs[resource]) return res.status(400).json({ code: 400, message: "Bad request" });
+
+    const actualCosts: any = {
+        coal: costs.coal * (4 ** toLevel),
+        copper: costs.copper * (4 ** toLevel),
+        gold: costs.gold * (4 ** toLevel),
+        iron: costs.iron * (4 ** toLevel),
+        oil: costs.oil * (4 ** toLevel),
+        uranium: costs.uranium * (4 ** toLevel),
+        wood: costs.wood * (4 ** toLevel)
+    }
+
+    for(const resource in actualCosts) {
+        console.log(resources.resources[resource], actualCosts[resource])
+        if(resources.resources[resource] < actualCosts[resource]) return res.status(400).json({ code: 400, message: "Bad request" });
     }
 
     await db.merge(resources.id, {
-        wood: resources.resources.wood - costs.wood,
-        iron: resources.resources.iron - costs.iron,
-        copper: resources.resources.copper - costs.copper,
-        gold: resources.resources.gold - costs.gold,
-        coal: resources.resources.coal - costs.coal,
-        oil: resources.resources.oil - costs.oil,
-        uranium: resources.resources.uranium - costs.uranium,
+        wood: resources.resources.wood - actualCosts.wood,
+        iron: resources.resources.iron - actualCosts.iron,
+        copper: resources.resources.copper - actualCosts.copper,
+        gold: resources.resources.gold - actualCosts.gold,
+        coal: resources.resources.coal - actualCosts.coal,
+        oil: resources.resources.oil - actualCosts.oil,
+        uranium: resources.resources.uranium - actualCosts.uranium,
     })
 
     // const data: any = {};

@@ -1,18 +1,31 @@
 (async () => {
     const resourceBar = document.querySelector('#resourcebar');
+    const playerId = document.querySelector('#div-user-id').getAttribute('data-user-id');
 
     // const resources = document.querySelector('#resources');
     // const buildings = document.querySelector('#buildings');
 
     const resourcesGroups = document.querySelectorAll('.resource-group');
 
+    const buildings = await fetch(`/api/getBuildings/${playerId}`).then(res => res.json());
+
     const defaultMiningRates = await fetch('/api/getDefaultMiningRates').then(res => res.json());
     const lang = await fetch('/lang/en_us.json').then(res => res.json());
+
+    const resourceToBuilding = {
+        coal: "coal_mine",
+        copper: "copper_mine",
+        gold: "gold_mine",
+        iron: "iron_mine",
+        oil: "oil_pump",
+        uranium: "uranium_mine",
+        wood: "lumber"
+    }
 
     for(let i = 0; i < resourcesGroups.length; i++) {
         const id = resourcesGroups[i].children[0].id.slice(14);
         resourcesGroups[i].children[0].innerHTML = lang.resources[id];
-        initRefresh(id, defaultMiningRates.rates[id]);   
+        initRefresh(id, ((2 ** (buildings.buildings[resourceToBuilding[id]] ?? 0)) * defaultMiningRates.rates[id]))
     }
 
     // for(let i = 0; i < resourceBar.children.length; i++) {
@@ -128,14 +141,28 @@ async function build(userId, buildingId, toLevel) {
     const toSnakeCase = buildingId.replace("-", "_");
     const costs = await fetch("/api/getBaseBuildingsCosts").then(res => res.json());
     const lang = await fetch('/lang/en_us.json').then(res => res.json());
-    const current = parseInt(document.querySelector(`#resource-amount-coal`).getAttribute('amount'));
+    // const current = parseInt(document.querySelector(`#resource-amount-coal`).getAttribute('amount'));
     const arr = [];
+
+    const actualCosts = {
+        coal: costs.costs[toSnakeCase].coal * (4 ** toLevel),
+        copper: costs.costs[toSnakeCase].copper * (4 ** toLevel),
+        gold: costs.costs[toSnakeCase].gold * (4 ** toLevel),
+        iron: costs.costs[toSnakeCase].iron * (4 ** toLevel),
+        oil: costs.costs[toSnakeCase].oil * (4 ** toLevel),
+        uranium: costs.costs[toSnakeCase].uranium * (4 ** toLevel),
+        wood: costs.costs[toSnakeCase].wood * (4 ** toLevel)
+    }
     
     document.querySelector('.dialog-title').innerHTML = `Building <b>${lang.buildings[toSnakeCase]}</b> to level <b>${toLevel}</b>`;
 
-    for (const [key, value] of Object.entries(costs.costs[toSnakeCase])) {
-        console.log(`${key}: ${value}`)
-        arr.push([lang.resources[key], value, current, current - value])
+    let canBuild = true;
+    for (const [key, value] of Object.entries(actualCosts)) {
+        const current = parseInt(document.querySelector(`#resource-amount-${key}`).getAttribute('amount'));
+        arr.push([lang.resources[key], value, current, current - value]);
+        if (current - value < 0) {
+            canBuild = false;
+        }
     }
     
     let reply = `<table>
@@ -152,9 +179,9 @@ async function build(userId, buildingId, toLevel) {
     for (let i = 0; i < arr.length; i++) {
         reply += `<tr>
         <td>${arr[i][0]}</td>
-        <td>${arr[i][1]}</td>
+        <td>${numToHumanReadable(arr[i][1])}</td>
         <td>${numToHumanReadable(arr[i][2])}</td>
-        <td>${numToHumanReadable(arr[i][3])}</td>
+        <td${ arr[i][3] < 0 ? ' class="dialog-content-red"' : '' }>${numToHumanReadable(arr[i][3])}</td>
     </tr>`
     }
 
@@ -167,16 +194,28 @@ async function build(userId, buildingId, toLevel) {
     const dialogBox = document.querySelector('.dialog');
     dialogBox.classList.add('dialog-active');
 
-    const confirm = document.querySelector('.dialog-confirm');
-    confirm.addEventListener('click', async () => {
-        const build = await fetch(`/api/createBuilding/${userId}/${toSnakeCase}/${toLevel}`, {
-            method: 'POST',
-        }).then(res => res.json());
+    const confirm = document.querySelector('#dialog-confirm-button');
 
-        console.log(build);
+    if(canBuild) {
+        confirm.classList.add('dialog-confirm');
+        confirm.classList.add('dialog-button-green');
+        confirm.classList.remove('dialog-button-gray');
+        confirm.innerHTML = "Build";
+        confirm.addEventListener('click', async () => {
+            const build = await fetch(`/api/createBuilding/${userId}/${toSnakeCase}/${toLevel}`, {
+                method: 'POST',
+            }).then(res => res.json());
 
-        dialogBox.classList.remove('dialog-active');
+            console.log(build)
 
-        window.location.reload();
-    });
+            dialogBox.classList.remove('dialog-active');
+
+            window.location.reload();
+        });
+    } else {
+        confirm.classList.remove('dialog-confirm');
+        confirm.classList.remove('dialog-button-green');
+        confirm.classList.add('dialog-button-gray');
+        confirm.innerHTML = "Not enough resources";
+    }
 }

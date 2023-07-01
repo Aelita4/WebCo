@@ -270,3 +270,11 @@ span {
 .dialog-button-green:hover {
     background-color: #2ECC71;
 }
+
+.dialog-button-gray {
+    background-color: gray;
+}
+
+.dialog-content-red {
+    color: red;
+}
