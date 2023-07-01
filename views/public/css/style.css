@@ -46,7 +46,10 @@ h1 {
 .login-dialog {
     width: 400px;
     margin: 0 auto;
+    background-image: linear-gradient(left, teal, blue);
+    background-image: -o-linear-gradient(left, teal, blue);
     background-image: -moz-linear-gradient(left, teal, blue);
+    background-image: -webkit-linear-gradient(left, teal, blue);    
     border-radius: 0px 0px 5px 5px;
     padding: 20px;
 }
@@ -136,7 +139,10 @@ span {
     border-color: #d3ff00;
     text-align: center;
     align-items: center;
-    background-image: -moz-linear-gradient(-45deg, teal, blue)
+    background-image: linear-gradient(-45deg, teal, blue);
+    background-image: -o-linear-gradient(-45deg, teal, blue);
+    background-image: -moz-linear-gradient(-45deg, teal, blue);
+    background-image: -webkit-linear-gradient(-45deg, teal, blue);
 }
 
 .building-builder-photo {
