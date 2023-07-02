@@ -1,0 +1,10 @@
+export default {
+    "port": 3000,
+    "database": {
+        "url": "http://127.0.0.1:8000/rpc",
+        "user": "user",
+        "pass": "pass",
+        "db": "webco",
+        "ns": "dev"
+    }
+}
